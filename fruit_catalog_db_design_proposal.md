@@ -73,7 +73,7 @@ LEFT JOIN country cc
     ON cc.id = CAST(country_meta.value AS UNSIGNED)
 LEFT JOIN d1_fruit_listing_meta warehouse_meta
     ON warehouse_meta.parent = dpu.id AND warehouse_meta.attribute = 'warehouse'
-LEFT JOIN hiro_warehouse ho
+LEFT JOIN kokona_warehouse ho
     ON ho.id = CAST(warehouse_meta.value AS UNSIGNED)
 LEFT JOIN d1_fruit_listing_meta coord_meta
     ON coord_meta.parent = dpu.id AND coord_meta.attribute = 'coordinate'
@@ -96,7 +96,7 @@ SELECT
     ho.name AS WarehouseName
 FROM d1_fruit_listing dpu
 JOIN d1_fruit_listing_meta dpum ON dpum.parent = dpu.id
-JOIN hiro_warehouse ho ON ho.id = CAST(dpum.value AS UNSIGNED)
+JOIN kokona_warehouse ho ON ho.id = CAST(dpum.value AS UNSIGNED)
 WHERE
     dpum.attribute = 'warehouse' AND
     dpum.value = '3';
@@ -288,7 +288,7 @@ LEFT JOIN discount v ON v.id = dpuv.discount_id
 LEFT JOIN d2_fruit_listing_country dpuc ON dpuc.fruit_listing_id = dpu.id
 LEFT JOIN country cc ON cc.id = dpuc.country_id
 LEFT JOIN d2_fruit_listing_warehouse dpuo ON dpuo.fruit_listing_id = dpu.id
-LEFT JOIN hiro_warehouse ho ON ho.id = dpuo.hiro_warehouse_id
+LEFT JOIN kokona_warehouse ho ON ho.id = dpuo.kokona_warehouse_id
 LEFT JOIN d2_fruit_listing_coordinate dpuc2 ON dpuc2.fruit_listing_id = dpu.id
 LEFT JOIN d2_fruit_listing_spending_period dpusp ON dpusp.fruit_listing_id = dpu.id
 ```
@@ -316,7 +316,7 @@ LEFT JOIN discount v ON v.id = dpuv.discount_id
 LEFT JOIN d2_fruit_listing_country dpuc ON dpuc.fruit_listing_id = dpu.id
 LEFT JOIN country cc ON cc.id = dpuc.country_id
 LEFT JOIN d2_fruit_listing_warehouse dpuo ON dpuo.fruit_listing_id = dpu.id
-LEFT JOIN hiro_warehouse ho ON ho.id = dpuo.hiro_warehouse_id
+LEFT JOIN kokona_warehouse ho ON ho.id = dpuo.kokona_warehouse_id
 LEFT JOIN d2_fruit_listing_coordinate dpuc2 ON dpuc2.fruit_listing_id = dpu.id
 LEFT JOIN d2_fruit_listing_spending_period dpusp ON dpusp.fruit_listing_id = dpu.id
 WHERE dpu.id = 32;
@@ -330,12 +330,12 @@ WHERE dpu.id = 32;
 SELECT
     dpu.id AS FruitListingID,
     dpu.title AS FruitListingTitle,
-    dpuo.hiro_warehouse_id AS WarehouseID,
+    dpuo.kokona_warehouse_id AS WarehouseID,
     ho.name AS WarehouseName
 FROM d2_fruit_listing dpu
 JOIN d2_fruit_listing_warehouse dpuo ON dpuo.fruit_listing_id = dpu.id
-JOIN hiro_warehouse ho ON ho.id = dpuo.hiro_warehouse_id
-WHERE dpuo.hiro_warehouse_id = 3;
+JOIN kokona_warehouse ho ON ho.id = dpuo.kokona_warehouse_id
+WHERE dpuo.kokona_warehouse_id = 3;
 ```
 
 ---
@@ -361,12 +361,12 @@ WHERE
 SELECT DISTINCT dpu.id AS FruitListingID, dpu.title AS FruitListingTitle
 FROM d2_fruit_listing dpu
 JOIN d2_fruit_listing_warehouse dpuo ON dpuo.fruit_listing_id = dpu.id
-JOIN hiro_warehouse ho ON ho.id = dpuo.hiro_warehouse_id
+JOIN kokona_warehouse ho ON ho.id = dpuo.kokona_warehouse_id
 JOIN d2_fruit_listing_country dpuc ON dpuc.fruit_listing_id = dpu.id
 JOIN country cc ON cc.id = dpuc.country_id
 JOIN d2_fruit_listing_spending_period dpusp ON dpusp.fruit_listing_id = dpu.id
 WHERE dpu.status = 'active'
-  AND dpuo.hiro_warehouse_id = 3
+  AND dpuo.kokona_warehouse_id = 3
   AND dpuc.country_id = 1
   AND dpusp.starts_at <= NOW()
   AND dpusp.ends_at >= DATE_SUB(NOW(), INTERVAL 3 MONTH);
